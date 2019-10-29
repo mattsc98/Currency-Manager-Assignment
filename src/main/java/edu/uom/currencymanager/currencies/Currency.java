@@ -1,7 +1,7 @@
 package edu.uom.currencymanager.currencies;
 
 import java.util.StringTokenizer;
-
+//test
 public class Currency {
 
     public String code;
