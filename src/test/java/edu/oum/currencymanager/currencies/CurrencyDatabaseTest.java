@@ -64,9 +64,15 @@ public class CurrencyDatabaseTest {
 
         //Exercise
         currDB.addCurrency(curr);
-
+        Currency retrievedCurr = currDB.getCurrencyByCode("LIR");
 
         //Verify
+        assertEquals("LIR", retrievedCurr.code);
+
+        //Teardown
+        try {
+            currDB.deleteCurrency("LIR");
+        }catch (Exception e) {};
     }
 
 
