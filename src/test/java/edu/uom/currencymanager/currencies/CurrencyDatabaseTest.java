@@ -4,8 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import edu.uom.currencymanager.currencies.CurrencyDatabase;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,11 @@ public class CurrencyDatabaseTest {
         currDB = null;
         curr = null;
     }
+
+    @Mock
+    CurrencyDatabase databaseMock;
+
+
 
     @Test
     public void TestAddCurrency() throws Exception {
@@ -85,7 +92,7 @@ public class CurrencyDatabaseTest {
     }
 
     @Test
-    public void TestGetCurrencies() throws Exception{
+    public void TestGetCurrencies() {
 
         //Setup
         List<Currency> currencies = new ArrayList<Currency>() {{
@@ -104,6 +111,37 @@ public class CurrencyDatabaseTest {
         //Teardown
         currencies = null;
     }
+
+    @Test
+    public void TestGetMajorCurrencies() throws Exception {
+
+        //Setup
+        currDB.addCurrency(curr);
+
+        //Exercise
+        List<Currency> result =  currDB.getMajorCurrencies();
+
+        //Verify - 4 already existing + 1 LIR added
+        assertEquals(5, result.size());
+
+        //Teardown
+        currDB.deleteCurrency("LIR");
+        result = null;
+
+    }
+
+    @Test
+    public void TestGetExchangeRate_UnknownCurrencySource() throws Exception{
+
+        //Setup
+        currDB.addCurrency(new Currency("ZEN", "Zeni", false));
+
+        //Exercise
+
+
+    }
+
+
 
 
 
