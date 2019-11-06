@@ -15,13 +15,13 @@ import java.util.List;
 public class CurrencyDatabaseTest {
 
     CurrencyDatabase currDB;
-    Currency curr;
+    Currency curr, currZ;
 
     @Before
     public void setup() throws Exception {
         currDB = new CurrencyDatabase();
         curr = new Currency("LIR", "Maltese Lira", true);
-
+        currZ = new Currency("ZEN", "Zeni", false);
     }
 
     @After
@@ -131,17 +131,28 @@ public class CurrencyDatabaseTest {
     }
 
     @Test
-    public void TestGetExchangeRate_UnknownCurrencySource() throws Exception{
-
-        //Setup
-        currDB.addCurrency(new Currency("ZEN", "Zeni", false));
+    public void TestGetExchangeRate_UnknownCurrencySource() {
 
         //Exercise
-
+        try {
+            currDB.getExchangeRate("AAA", "LIR");
+        } catch (Exception e) {
+            assertEquals("Unkown currency: AAA", e.getMessage());
+        }
 
     }
 
+    @Test
+    public void TestGetExchangeRate_UnknownCurrencyDestination() {
 
+        //Exercise
+        try {
+            currDB.getExchangeRate("LIR", "AAA");
+        } catch (Exception e) {
+            assertEquals("Unkown currency: AAA", e.getMessage());
+        }
+
+    }
 
 
 
