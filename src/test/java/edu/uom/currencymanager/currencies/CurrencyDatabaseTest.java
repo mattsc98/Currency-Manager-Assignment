@@ -28,6 +28,7 @@ public class CurrencyDatabaseTest {
     public void teardown() {
         currDB = null;
         curr = null;
+        currZ = null;
     }
 
     @Mock
@@ -121,8 +122,8 @@ public class CurrencyDatabaseTest {
         //Exercise
         List<Currency> result =  currDB.getMajorCurrencies();
 
-        //Verify - 4 already existing + 1 LIR added
-        assertEquals(5, result.size());
+        //Verify
+        assertEquals(4, result.size());
 
         //Teardown
         currDB.deleteCurrency("LIR");
@@ -131,29 +132,57 @@ public class CurrencyDatabaseTest {
     }
 
     @Test
-    public void TestGetExchangeRate_UnknownCurrencySource() {
+    public void TestGetExchangeRate_UnknownCurrencySource() throws Exception {
+
+        //Setup
+        //currDB.addCurrency(curr);
 
         //Exercise
         try {
-            currDB.getExchangeRate("AAA", "LIR");
+            //currDB.getExchangeRate("AAA", "LIR");
+            currDB.getExchangeRate("AAA", "USD");
         } catch (Exception e) {
             assertEquals("Unkown currency: AAA", e.getMessage());
         }
+
+        //Teardown
+        //currDB.deleteCurrency("LIR");
+    }
+
+    @Test
+    public void TestGetExchangeRate_UnknownCurrencyDestination() throws Exception {
+
+        //Setup
+        //currDB.addCurrency(curr);
+
+        //Exercise
+        try {
+            //currDB.getExchangeRate("LIR", "AAA");
+            currDB.getExchangeRate("USD", "AAA");
+        } catch (Exception e) {
+            assertEquals("Unkown currency: AAA", e.getMessage());
+        }
+
+        //Teardown
+        //currDB.deleteCurrency("LIR");
 
     }
 
     @Test
-    public void TestGetExchangeRate_UnknownCurrencyDestination() {
+    public void TestGetExchangeRate_UnknownRate() throws Exception {
+
+        //Setup
+        currDB.addCurrency(curr);
+        currDB.addCurrency(currZ);
 
         //Exercise
-        try {
-            currDB.getExchangeRate("LIR", "AAA");
-        } catch (Exception e) {
-            assertEquals("Unkown currency: AAA", e.getMessage());
-        }
+        currDB.getExchangeRate("LIR", "ZEN");
+
+        //Verify
+        //assertEquals();
+
 
     }
-
 
 
 }
