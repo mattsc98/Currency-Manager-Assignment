@@ -4,3 +4,5 @@ EUR,Euro,yes
 GBP,British Pound,yes
 TRY,Turkish Lira,no
 USD,US Dollar,yes
+LIR,Maltese Lira,yes
+ZEN,Zeni,no

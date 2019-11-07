@@ -174,13 +174,14 @@ public class CurrencyDatabaseTest {
         //Setup
         currDB.addCurrency(curr);
         currDB.addCurrency(currZ);
+        ExchangeRate exRate = new ExchangeRate(curr, currZ, 4.79);
 
         //Exercise
-        currDB.getExchangeRate("LIR", "ZEN");
+        ExchangeRate testRate = currDB.getExchangeRate("LIR", "ZEN");
+        testRate.rate = 4.79;
 
         //Verify
-        //assertEquals();
-
+        assertEquals("LIR 1 = ZEN " + exRate.rate + "", testRate.toString());
 
     }
 
