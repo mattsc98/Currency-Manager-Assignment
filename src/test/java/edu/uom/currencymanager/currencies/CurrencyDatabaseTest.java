@@ -80,6 +80,17 @@ public class CurrencyDatabaseTest {
     }
 
     @Test
+    public void TestGetCurrencyByCode_Null() throws Exception {
+
+        //Exercise
+        Currency retrievedCurr = currDB.getCurrencyByCode(null);
+
+        //Verify
+        assertEquals(null, retrievedCurr);
+
+    }
+
+    @Test
     public void TestCurrencyExists() throws Exception {
 
         //Exercise
@@ -90,6 +101,14 @@ public class CurrencyDatabaseTest {
 
         //Teardown
         currDB.deleteCurrency("LIR");
+    }
+
+    @Test
+    public void TestCurrencyExists_NoCurrency() {
+
+        //Verify
+        assertFalse(currDB.currencyExists("LIR"));
+
     }
 
     @Test
@@ -114,25 +133,65 @@ public class CurrencyDatabaseTest {
     }
 
     @Test
+    public void TestGetCurrencies_NoCurrencies() {
+
+        //Setup
+        List<Currency> currencies = new ArrayList<Currency>() {{
+        }};
+        currDB.currencies = currencies;
+
+        //Exercise
+        List<Currency> result = currDB.getCurrencies();
+
+        //Verify
+        assertTrue(result.isEmpty());
+
+        //Teardown
+        currencies = null;
+    }
+
+    @Test
     public void TestGetMajorCurrencies() throws Exception {
 
         //Setup
+        List<Currency> result =  currDB.getMajorCurrencies();
         currDB.addCurrency(curr);
+        currDB.addCurrency(currZ);
 
         //Exercise
-        List<Currency> result =  currDB.getMajorCurrencies();
+        List<Currency> testResult =  currDB.getMajorCurrencies();
 
         //Verify
-        assertEquals(4, result.size());
+        assertTrue(testResult.size() > result.size());
 
         //Teardown
         currDB.deleteCurrency("LIR");
-        result = null;
+        currDB.deleteCurrency("ZEN");
 
     }
 
     @Test
-    public void TestGetExchangeRate_UnknownCurrencySource() throws Exception {
+    public void TestGetMajorCurrencies_NoMajorCurrencies() {
+
+        //Setup
+        //List with no major currencies must be created
+        List<Currency> currencies = new ArrayList<Currency>() {{
+            add(new Currency("AAA", "A", false));
+            add(new Currency("BBB", "B", false));
+            add(new Currency("CCC", "C", false));
+        }};
+        currDB.currencies = currencies;
+
+        //Exercise
+        List<Currency> result = currDB.getMajorCurrencies();
+
+        //Verify
+        assertTrue(result.isEmpty());
+
+    }
+
+    @Test
+    public void TestGetExchangeRate_UnknownCurrencySource() throws Exception { //check
 
         //Setup
         //currDB.addCurrency(curr);
