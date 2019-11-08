@@ -163,8 +163,8 @@ public class CurrencyDatabaseTest {
             assertEquals("Unkown currency: AAA", e.getMessage());
         }
 
-        //Teardown
-        //currDB.deleteCurrency("LIR");
+//        Teardown
+//        currDB.deleteCurrency("LIR");
 
     }
 
@@ -183,7 +183,30 @@ public class CurrencyDatabaseTest {
         //Verify
         assertEquals("LIR 1 = ZEN " + exRate.rate + "", testRate.toString());
 
+        //Teardown
+        currDB.deleteCurrency("LIR");
+        currDB.deleteCurrency("ZEN");
     }
 
+    @Test
+    public void TestGetExchangeRate_ExceededTime() throws Exception {
+
+        //Setup
+        long SIX_MINUTES_IN_MILLIS = 360000; //6*60*100
+        currDB.addCurrency(curr);
+        currDB.addCurrency(currZ);
+        ExchangeRate testResult = currDB.getExchangeRate("LIR", "ZEN");
+        testResult.timeLastChecked = testResult.timeLastChecked - SIX_MINUTES_IN_MILLIS;
+
+        //Exercise
+        ExchangeRate result = currDB.getExchangeRate("LIR","ZEN");
+
+        //Verify
+        assertFalse(testResult == result);
+
+        //Teardown
+        currDB.deleteCurrency("LIR");
+        currDB.deleteCurrency("ZEN");
+    }
 
 }
