@@ -24,6 +24,7 @@ public class Currency {
 
         return new Currency(code,name,major);
     }
+	
 
     public String toString() {
         return code + " - " + name;

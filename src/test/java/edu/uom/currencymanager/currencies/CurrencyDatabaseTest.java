@@ -80,7 +80,7 @@ public class CurrencyDatabaseTest {
     }
 
     @Test
-    public void TestGetCurrencyByCode_Null() throws Exception {
+    public void TestGetCurrencyByCode_Null() {
 
         //Exercise
         Currency retrievedCurr = currDB.getCurrencyByCode(null);
@@ -128,8 +128,6 @@ public class CurrencyDatabaseTest {
         //Verify
         assertEquals(currencies, result);
 
-        //Teardown
-        currencies = null;
     }
 
     @Test
@@ -146,8 +144,6 @@ public class CurrencyDatabaseTest {
         //Verify
         assertTrue(result.isEmpty());
 
-        //Teardown
-        currencies = null;
     }
 
     @Test
