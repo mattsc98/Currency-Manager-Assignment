@@ -27,6 +27,17 @@ public class CurrencyTest {
     }
 
     @Test
+    public void TestCurrency() {
+
+        //Verify
+        assertTrue(curr.code.equals("LIR")
+                && curr.name.equals("Maltese Lira")
+                && curr.major == true
+        );
+
+    }
+
+    @Test
     public void TestFromString() throws Exception {
 
         //Setup
