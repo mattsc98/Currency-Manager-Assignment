@@ -152,7 +152,6 @@ public class CurrencyDatabaseTest {
         //Setup
         List<Currency> result =  currDB.getMajorCurrencies();
         currDB.addCurrency(curr);
-        currDB.addCurrency(currZ);
 
         //Exercise
         List<Currency> testResult =  currDB.getMajorCurrencies();
@@ -162,7 +161,6 @@ public class CurrencyDatabaseTest {
 
         //Teardown
         currDB.deleteCurrency("LIR");
-        currDB.deleteCurrency("ZEN");
 
     }
 

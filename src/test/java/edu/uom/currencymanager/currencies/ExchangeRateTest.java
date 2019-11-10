@@ -23,6 +23,7 @@ public class ExchangeRateTest {
     public void teardown() {
         currDB = null;
         curr = null;
+        currZ = null;
     }
 
     @Test
