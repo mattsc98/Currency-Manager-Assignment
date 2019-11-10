@@ -10,8 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CurrencyManagerTest {
 
@@ -101,17 +100,38 @@ public class CurrencyManagerTest {
     }
 
     @Test
-    public void TestAddCurrency_CodeLengthThree() throws Exception {
+    public void TestAddCurrency() throws Exception {
 
         //Exercise
         currMan.addCurrency("LIR", "Maltese Lira", true);
 
         //Verify
-        
-        //assertTrue(currMan.currencyExists("LIR"));
+        assertTrue(currMan.currencyDatabase.currencyExists("LIR"));
 
         //Teardown
-        currDB.deleteCurrency("LIR");
+        currMan.deleteCurrencyWithCode("LIR");
 
     }
+
+    @Test
+    public void TestDeleteCurrencyWithCode() throws Exception {
+
+        //Setup
+        currMan.addCurrency("LIR", "Maltese Lira", true);;
+
+        //Exercise
+        currMan.deleteCurrencyWithCode("LIR");
+
+        //Verify
+        assertFalse(currMan.currencyDatabase.currencyExists("LIR"));
+
+    }
+
+//    @Test
+//    public void TestMain_Menu() {
+//
+//        //Setup
+//        boolean exit = false;
+//
+//    }
 }
