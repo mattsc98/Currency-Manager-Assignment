@@ -106,7 +106,74 @@ public class CurrencyManagerTest {
         currMan.addCurrency("LIR", "Maltese Lira", true);
 
         //Verify
-        assertTrue(currMan.currencyDatabase.currencyExists("LIR"));
+        Currency testCurr = currMan.currencyDatabase.getCurrencyByCode("LIR");
+        assertEquals("LIR", testCurr.code);
+        assertEquals("Maltese Lira", testCurr.name);
+        assertEquals(true, testCurr.major);
+        //assertTrue(currMan.currencyDatabase.currencyExists("LIR"));
+
+        //Teardown
+        currMan.deleteCurrencyWithCode("LIR");
+
+    }
+
+    @Test
+    public void TestAddCurrency_CodeOverThree() {
+
+        //Exercise
+        try{
+            currMan.addCurrency("LIRA", "Maltese Lira", true);
+        }
+
+        //Verify
+        catch (Exception e) {
+            assertEquals("A currency code should have 3 characters.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void TestAddCurrency_CodeUnderThree() {
+
+        //Exercise
+        try{
+            currMan.addCurrency("LI", "Maltese Lira", true);
+        }
+
+        //Verify
+        catch (Exception e) {
+            assertEquals("A currency code should have 3 characters.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void TestAddCurrency_MinLength() {
+
+        //Exercise
+        try{
+            currMan.addCurrency("LIR", "ML", true);
+        }
+
+        //Verify
+        catch (Exception e) {
+            assertEquals("A currency's name should be at least 4 characters long.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void TestAddCurrency_CurrExists() throws Exception {
+
+        //Setup
+        currMan.addCurrency("LIR", "Maltese Lira", true);
+
+        //Exercise
+        try{
+            currMan.addCurrency("LIR", "Maltese Lira", true);
+        }
+
+        //Verify
+        catch (Exception e) {
+            assertEquals("The currency LIR already exists.", e.getMessage());
+        }
 
         //Teardown
         currMan.deleteCurrencyWithCode("LIR");
@@ -117,13 +184,29 @@ public class CurrencyManagerTest {
     public void TestDeleteCurrencyWithCode() throws Exception {
 
         //Setup
-        currMan.addCurrency("LIR", "Maltese Lira", true);;
+        currMan.addCurrency("LIR", "Maltese Lira", true);
 
         //Exercise
         currMan.deleteCurrencyWithCode("LIR");
 
         //Verify
         assertFalse(currMan.currencyDatabase.currencyExists("LIR"));
+
+    }
+
+    @Test
+    public void TestDeleteCurrencyWithCode_NoExist() throws Exception {
+
+        //Exercise
+        try {
+            currMan.deleteCurrencyWithCode("LIR");
+        }
+
+        //Verify
+        catch(Exception e) {
+            assertEquals("Currency does not exist: LIR", e.getMessage());
+        }
+
 
     }
 
