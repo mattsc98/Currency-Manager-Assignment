@@ -56,19 +56,18 @@ public class CurrencyTest {
 
     @Test
     public void TestToString() throws Exception {
+
         //Setup
         currDB.addCurrency(curr);
-        currDB.addCurrency(currZ);
 
         //Exercise
-        ExchangeRate testRate = currDB.getExchangeRate("LIR", "ZEN");
-        testRate.rate = 4.79;
+        String testCurr = curr.toString();
 
         //Verify
-        assertEquals("LIR 1 = ZEN " + testRate.rate + "", testRate.toString());
+        assertEquals("LIR - Maltese Lira", testCurr);
 
         //Teardown
         currDB.deleteCurrency("LIR");
-        currDB.deleteCurrency("ZEN");
+
     }
 }
