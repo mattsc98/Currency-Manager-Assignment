@@ -10,24 +10,14 @@ import static org.junit.Assert.assertTrue;
 
 public class CurrencyTest {
 
-    //Lira
-    final String CODE = "LIR";
-    final String NAME = "Maltese Lira";
-    final boolean MAJOR = true;
-
-    //Zeni
-    final String CODE_Z = "ZEN";
-    final String NAME_Z = "Zeni";
-    final boolean MAJOR_Z = false;
-
     CurrencyDatabase currDB;
     Currency curr, currZ;
 
     @Before
     public void setup() throws Exception {
         currDB = new CurrencyDatabase();
-        curr = new Currency(CODE, NAME, MAJOR);
-        currZ = new Currency(CODE_Z, NAME_Z, MAJOR_Z);
+        curr = new Currency("LIR", "Maltese Lira", true);
+        currZ = new Currency("ZEN", "Zeni", false);
     }
 
     @After
