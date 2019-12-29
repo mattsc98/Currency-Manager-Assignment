@@ -16,12 +16,13 @@ public class CurrencyManager {
         currencyDatabase = new CurrencyDatabase();
     }
 
+    CurrencyManager manager = new CurrencyManager();
 
-    public static void main(String[] args) throws Exception {
+    Scanner sc = new Scanner(System.in);
 
-        CurrencyManager manager = new CurrencyManager();
+    public void main(String[] args) throws Exception {
 
-        Scanner sc = new Scanner(System.in);
+        //CurrencyManager manager = new CurrencyManager();
 
         boolean exit = false;
 
@@ -44,64 +45,84 @@ public class CurrencyManager {
                     exit = true;
                     break;
                 case 1:
-                    List<Currency> currencies = manager.currencyDatabase.getCurrencies();
-                    System.out.println("\nAvailable Currencies\n--------------------");
-                    for (Currency currency : currencies) {
-                        System.out.println(currency.toString());
-                    }
+                    listCurrencies();
                     break;
                 case 2:
-                    List<ExchangeRate> exchangeRates = manager.getMajorCurrencyRates();
-                    System.out.println("\nMajor Currency Exchange Rates\n-----------------------------");
-                    for (ExchangeRate rate : exchangeRates) {
-                        System.out.println(rate.toString());
-                    }
+                    listExchangeRates();
                     break;
                 case 3:
-                    System.out.print("\nEnter source currency code (e.g. EUR): ");
-                    String src = sc.next().toUpperCase();
-                    System.out.print("\nEnter destination currency code (e.g. GBP): ");
-                    String dst = sc.next().toUpperCase();
-                    try {
-                        ExchangeRate rate = manager.getExchangeRate(src, dst);
-                        System.out.println(rate.toString());
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
+                    checkExchangeRate();
+                    break;
                 case 4:
-                    System.out.print("\nEnter the currency code: ");
-                    String code = sc.next().toUpperCase();
-                    System.out.print("Enter currency name: ");
-                    String name = sc.next();
-                    name += sc.nextLine();
-
-                    String major = "\n";
-                    while (!(major.equalsIgnoreCase("y") || major.equalsIgnoreCase("n"))) {
-                        System.out.println("Is this a major currency? [y/n]");
-                        major = sc.next();
-                    }
-
-                    try {
-                        manager.addCurrency(code, name, major.equalsIgnoreCase("y"));
-                    } catch (Exception e) {
-                        System.err.println(e.getMessage());
-                    }
+                    addNewCurrency();
                     break;
                 case 5:
-                    System.out.print("\nEnter the currency code: ");
-                    code = sc.next().toUpperCase();
-                    try {
-                        manager.deleteCurrencyWithCode(code);
-                    } catch (Exception e) {
-                        System.err.println(e.getMessage());
-                    }
+                    deleteACurrency();
                     break;
-
             }
-
             Thread.sleep(1000);
         }
     }
+
+    public void listCurrencies() {
+        List<Currency> currencies = manager.currencyDatabase.getCurrencies();
+        System.out.println("\nAvailable Currencies\n--------------------");
+        for (Currency currency : currencies) {
+            System.out.println(currency.toString());
+        }
+    }
+
+    public void listExchangeRates() throws Exception {
+        List<ExchangeRate> exchangeRates = manager.getMajorCurrencyRates();
+        System.out.println("\nMajor Currency Exchange Rates\n-----------------------------");
+        for (ExchangeRate rate : exchangeRates) {
+            System.out.println(rate.toString());
+        }
+    }
+
+    public void checkExchangeRate() {
+        System.out.print("\nEnter source currency code (e.g. EUR): ");
+        String src = sc.next().toUpperCase();
+        System.out.print("\nEnter destination currency code (e.g. GBP): ");
+        String dst = sc.next().toUpperCase();
+        try {
+            ExchangeRate rate = manager.getExchangeRate(src, dst);
+            System.out.println(rate.toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void addNewCurrency() {
+        System.out.print("\nEnter the currency code: ");
+        String code = sc.next().toUpperCase();
+        System.out.print("Enter currency name: ");
+        String name = sc.next();
+        name += sc.nextLine();
+
+        String major = "\n";
+        while (!(major.equalsIgnoreCase("y") || major.equalsIgnoreCase("n"))) {
+            System.out.println("Is this a major currency? [y/n]");
+            major = sc.next();
+        }
+
+        try {
+            manager.addCurrency(code, name, major.equalsIgnoreCase("y"));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public void deleteACurrency() {
+        System.out.print("\nEnter the currency code: ");
+        String code = sc.next().toUpperCase();
+        try {
+            manager.deleteCurrencyWithCode(code);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
 
     public List<ExchangeRate> getMajorCurrencyRates() throws Exception {
 
