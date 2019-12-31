@@ -1,13 +1,13 @@
-package edu.uom.currencymanager;
+package edu.uom.currencymanager.main;
 
 import edu.uom.currencymanager.currencies.Currency;
 import edu.uom.currencymanager.currencies.CurrencyDatabase;
 import edu.uom.currencymanager.currencies.ExchangeRate;
+import edu.uom.currencymanager.main.CurrencyManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
