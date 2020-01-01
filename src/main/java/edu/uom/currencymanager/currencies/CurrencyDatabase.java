@@ -37,28 +37,77 @@ public class CurrencyDatabase {
             String  nextLine = reader.readLine();
 
             //Check if line has 2 commas
-            int numCommas = 0;
-            char[] chars = nextLine.toCharArray();
-            for (char c : chars) {
-                if (c == ',') numCommas++;
-            }
+//            int numCommas = 0;
+//            char[] chars = nextLine.toCharArray();
+//            for (char c : chars) {
+//                if (c == ',') numCommas++;
+//            }
+            int numCommas = checkIfLineHasTwoCommas(nextLine);
 
-            if (numCommas != 2) {
-                throw new Exception("Parsing error: expected two commas in line " + nextLine);
-            }
+//            if (numCommas != 2) {
+//                throw new Exception("Parsing error: expected two commas in line " + nextLine);
+//            }
+
+            nextLine = checkForTwoCommas(nextLine, numCommas);
 
             Currency currency = Currency.fromString(nextLine);
 
-            if (currency.code.length() == 3) {
-                if (!currencyExists(currency.code)) {
-                    currencies.add(currency);
-                }
-            } else {
-                System.err.println("Invalid currency code detected: " + currency.code);
-            }
+//            if (currency.code.length() == 3) {
+//                if (!currencyExists(currency.code)) {
+//                    currencies.add(currency);
+//                }
+//            } else {
+//                System.err.println("Invalid currency code detected: " + currency.code);
+//            }
+
+            String msg = checkCurrCode(currency);
+            if(!msg.equals("Successfully Added")) System.err.println(msg);
         }
     }
 
+    public int checkIfLineHasTwoCommas(String nextLine) {
+
+        int numCommas = 0;
+        char[] chars = nextLine.toCharArray();
+
+        for (char c : chars) {
+            if (c == ',') numCommas++;
+        }
+
+        return numCommas;
+    }
+
+    public String checkForTwoCommas(String nextLine, int numCommas) throws Exception {
+
+        if (numCommas != 2) {
+            throw new Exception("Parsing error: expected two commas in line " + nextLine);
+        }
+
+        return nextLine;
+    }
+
+    public String checkCurrCode(Currency currency) {
+
+        if (currency.code.length() == 3) {
+
+            if (!currencyExists(currency.code)) {
+                currencies.add(currency);
+                return "Successfully Added";
+            }
+            else {
+                //System.err.println("The Currency Already Exists: " + currency.code);
+                return "The Currency Already Exists";
+            }
+
+        }
+        else {
+            //System.err.println("Invalid currency code detected: " + currency.code);
+            return "Invalid currency code detected: " + currency.code;
+        }
+
+    }
+
+    //AAAAAAAAAAAAA
     public Currency getCurrencyByCode(String code) {
 
         for (Currency currency : currencies) {
@@ -70,6 +119,7 @@ public class CurrencyDatabase {
         return null;
     }
 
+    //AAAAAAAAAAAAA
     public boolean currencyExists(String code) {
         return getCurrencyByCode(code) != null;
     }

@@ -3,7 +3,6 @@ package edu.uom.currencymanager.main;
 import edu.uom.currencymanager.currencies.Currency;
 import edu.uom.currencymanager.currencies.CurrencyDatabase;
 import edu.uom.currencymanager.currencies.ExchangeRate;
-import edu.uom.currencymanager.main.CurrencyManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,19 +11,19 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class CurrencyManagerTest {
+public class CurrencyMenuTest {
 
 
     CurrencyDatabase currDB;
     Currency curr, currZ;
-    CurrencyManager currMan;
+    CurrencyMenu currMenu;
 
     @Before
     public void setup() throws Exception {
         currDB = new CurrencyDatabase();
         curr = new Currency("LIR", "Maltese Lira", true);
         currZ = new Currency("ZEN", "Zeni", false);
-        currMan = new CurrencyManager();
+        currMenu = new CurrencyMenu();
 
     }
 
@@ -33,7 +32,7 @@ public class CurrencyManagerTest {
         currDB = null;
         curr = null;
         currZ = null;
-        currMan = null;
+        currMenu = null;
     }
 
 
@@ -41,17 +40,17 @@ public class CurrencyManagerTest {
     public void TestGetMajorCurrencyRates() throws Exception {
 
         //Setup
-        List<ExchangeRate> result =  currMan.getMajorCurrencyRates();
-        currMan.addCurrency("LIR", "Maltese Lira", true);
+        List<ExchangeRate> result =  currMenu.getMajorCurrencyRates();
+        currMenu.addCurrency("LIR", "Maltese Lira", true);
 
         //Exercise
-        List<ExchangeRate> testResult =  currMan.getMajorCurrencyRates();
+        List<ExchangeRate> testResult =  currMenu.getMajorCurrencyRates();
 
         //Verify
         assertTrue(testResult.size() > result.size());
 
         //Teardown
-        currMan.deleteCurrencyWithCode("LIR");
+        currMenu.deleteCurrencyWithCode("LIR");
 
     }
 
@@ -81,7 +80,7 @@ public class CurrencyManagerTest {
         //Exercise
         try {
             //currDB.getExchangeRate("AAA", "LIR");
-            currMan.getExchangeRate("AAA", "USD");
+            currMenu.getExchangeRate("AAA", "USD");
         } catch (Exception e) {
             assertEquals("Unkown currency: AAA", e.getMessage());
         }
@@ -93,7 +92,7 @@ public class CurrencyManagerTest {
         //Exercise
         try {
             //currDB.getExchangeRate("AAA", "LIR");
-            currMan.getExchangeRate("USD", "AAA");
+            currMenu.getExchangeRate("USD", "AAA");
         } catch (Exception e) {
             assertEquals("Unkown currency: AAA", e.getMessage());
         }
@@ -103,17 +102,17 @@ public class CurrencyManagerTest {
     public void TestAddCurrency() throws Exception {
 
         //Exercise
-        currMan.addCurrency("LIR", "Maltese Lira", true);
+        currMenu.addCurrency("LIR", "Maltese Lira", true);
 
         //Verify
-        Currency testCurr = currMan.currencyDatabase.getCurrencyByCode("LIR");
+        Currency testCurr = currMenu.currencyDatabase.getCurrencyByCode("LIR");
         assertEquals("LIR", testCurr.code);
         assertEquals("Maltese Lira", testCurr.name);
         assertEquals(true, testCurr.major);
         //assertTrue(currMan.currencyDatabase.currencyExists("LIR"));
 
         //Teardown
-        currMan.deleteCurrencyWithCode("LIR");
+        currMenu.deleteCurrencyWithCode("LIR");
 
     }
 
@@ -122,7 +121,7 @@ public class CurrencyManagerTest {
 
         //Exercise
         try{
-            currMan.addCurrency("LIRA", "Maltese Lira", true);
+            currMenu.addCurrency("LIRA", "Maltese Lira", true);
         }
 
         //Verify
@@ -136,7 +135,7 @@ public class CurrencyManagerTest {
 
         //Exercise
         try{
-            currMan.addCurrency("LI", "Maltese Lira", true);
+            currMenu.addCurrency("LI", "Maltese Lira", true);
         }
 
         //Verify
@@ -150,7 +149,7 @@ public class CurrencyManagerTest {
 
         //Exercise
         try{
-            currMan.addCurrency("LIR", "ML", true);
+            currMenu.addCurrency("LIR", "ML", true);
         }
 
         //Verify
@@ -163,11 +162,11 @@ public class CurrencyManagerTest {
     public void TestAddCurrency_CurrExists() throws Exception {
 
         //Setup
-        currMan.addCurrency("LIR", "Maltese Lira", true);
+        currMenu.addCurrency("LIR", "Maltese Lira", true);
 
         //Exercise
         try{
-            currMan.addCurrency("LIR", "Maltese Lira", true);
+            currMenu.addCurrency("LIR", "Maltese Lira", true);
         }
 
         //Verify
@@ -176,7 +175,7 @@ public class CurrencyManagerTest {
         }
 
         //Teardown
-        currMan.deleteCurrencyWithCode("LIR");
+        currMenu.deleteCurrencyWithCode("LIR");
 
     }
 
@@ -184,13 +183,13 @@ public class CurrencyManagerTest {
     public void TestDeleteCurrencyWithCode() throws Exception {
 
         //Setup
-        currMan.addCurrency("LIR", "Maltese Lira", true);
+        currMenu.addCurrency("LIR", "Maltese Lira", true);
 
         //Exercise
-        currMan.deleteCurrencyWithCode("LIR");
+        currMenu.deleteCurrencyWithCode("LIR");
 
         //Verify
-        assertFalse(currMan.currencyDatabase.currencyExists("LIR"));
+        assertFalse(currMenu.currencyDatabase.currencyExists("LIR"));
 
     }
 
@@ -199,7 +198,7 @@ public class CurrencyManagerTest {
 
         //Exercise
         try {
-            currMan.deleteCurrencyWithCode("LIR");
+            currMenu.deleteCurrencyWithCode("LIR");
         }
 
         //Verify
