@@ -10,6 +10,7 @@ import java.util.List;
 
 public class CurrencyDatabase {
 
+    //private final DatabaseReadWrite databaseReadWrite;
     CurrencyServer currencyServer;
     List<Currency> currencies = new ArrayList<Currency>();
     HashMap<String, ExchangeRate> exchangeRates = new HashMap<String, ExchangeRate>();
@@ -185,7 +186,7 @@ public class CurrencyDatabase {
         currencies.add(currency);
 
         //Persist
-        persist();
+        persist(currenciesFile);
     }
 
     public void deleteCurrency(String code) throws Exception {
@@ -194,13 +195,13 @@ public class CurrencyDatabase {
         currencies.remove(getCurrencyByCode(code));
 
         //Persist
-        persist();
+        persist(currenciesFile);
     }
 
-    public void persist() throws Exception {
+    public void persist(String file) throws Exception {
 
         //Persist list
-        BufferedWriter writer = new BufferedWriter(new FileWriter(currenciesFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
         writer.write("code,name,major\n");
         for (Currency currency : currencies) {
