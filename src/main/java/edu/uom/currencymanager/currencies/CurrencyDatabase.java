@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class CurrencyDatabase {
 
@@ -167,6 +168,7 @@ public class CurrencyDatabase {
 
         if (result == null) {
             double rate = currencyServer.getExchangeRate(sourceCurrencyCode, destinationCurrencyCode);
+            currencyServer.setSeed(new Random().nextInt());
             result = new ExchangeRate(sourceCurrency,destinationCurrency, rate);
 
             //Cache exchange rate

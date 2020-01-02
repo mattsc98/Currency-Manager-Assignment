@@ -10,4 +10,6 @@ public interface CurrencyServer {
      */
     public double getExchangeRate(String sourceCurrency, String destinationCurrency);
 
+    public void setSeed(int seed);
+
 }

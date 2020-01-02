@@ -1,29 +1,32 @@
 package edu.uom.currencymanager.currencies;
-import edu.uom.currencymanager.currencies.Currency;
-import edu.uom.currencymanager.currencies.CurrencyDatabase;
+
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 public class CurrencyTest {
 
     CurrencyDatabase currDB;
     Currency curr, currZ;
+    Currency currMock = mock(Currency.class);
 
     @Before
     public void setup() throws Exception {
         currDB = new CurrencyDatabase();
         curr = new Currency("LIR", "Maltese Lira", true);
         currZ = new Currency("ZEN", "Zeni", false);
+        currMock = new Currency("LIR", "Maltese Lira", true);
     }
 
     @After
     public void teardown() {
         currDB = null;
         curr = null;
+        currZ = null;
     }
 
     @Test
@@ -32,7 +35,7 @@ public class CurrencyTest {
         //Verify
         assertTrue(curr.code.equals("LIR")
                 && curr.name.equals("Maltese Lira")
-                && curr.major == true
+                && curr.major
         );
 
     }
@@ -58,16 +61,19 @@ public class CurrencyTest {
     public void TestToString() throws Exception {
 
         //Setup
-        currDB.addCurrency(curr);
+        //currDB.addCurrency(curr);
+        when(currMock.toString()).thenReturn("LIR - Maltese Lira");
 
         //Exercise
-        String testCurr = curr.toString();
+        //String testCurr = curr.toString();
+        Assert.assertEquals(currMock.toString(), "LIR - Maltese Lira");
 
         //Verify
-        assertEquals("LIR - Maltese Lira", testCurr);
+        //assertEquals("LIR - Maltese Lira", testCurr);
+        verify(currMock).toString();
 
         //Teardown
-        currDB.deleteCurrency("LIR");
+        //currDB.deleteCurrency("LIR");
 
     }
 }
