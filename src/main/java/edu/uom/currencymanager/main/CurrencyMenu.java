@@ -59,11 +59,11 @@ public class CurrencyMenu {
                     break;
                 case 4:
                     System.out.println("\nAdding a New Currency\n-----------------------------");
-                    addNewCurrency(sc);
+                    addNewCurrencyInput(sc);
                     break;
                 case 5:
                     System.out.println("\nDeleting a Currency\n-----------------------------");
-                    deleteACurrency();
+                    deleteCurrencyInput(sc);
                     break;
             }
             Thread.sleep(1000);
@@ -146,7 +146,7 @@ public class CurrencyMenu {
 
 
     //-----case 4-----//
-    public String addNewCurrency(Scanner sc) {
+    public String addNewCurrencyInput(Scanner sc) {
         String checkInput = "";
 
         String CODE = "\nEnter the currency code: ";
@@ -202,9 +202,20 @@ public class CurrencyMenu {
 
 
     //-----case 5-----//
-    public void deleteACurrency() {
-        System.out.print("\nEnter the currency code: ");
+    public String deleteCurrencyInput(Scanner sc) {
+        String checkInput = "";
+
+        String CODE = "\nEnter the currency code: ";
+        System.out.print(CODE);
         String code = sc.next().toUpperCase();
+
+        checkInput = CODE;
+        deleteCurrencyCheck(code);
+
+        return checkInput;
+    }
+
+    public void deleteCurrencyCheck(String code) {
         try {
             deleteCurrencyWithCode(code);
         } catch (Exception e) {

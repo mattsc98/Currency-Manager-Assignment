@@ -368,7 +368,7 @@ public class CurrencyMenuTest {
     }
 
     @Test
-    public void TestAddNewCurrency() throws Exception {
+    public void TestAddNewCurrencyInput() throws Exception {
 
         //Setup
         String code = "LIR";
@@ -380,7 +380,7 @@ public class CurrencyMenuTest {
         Scanner sc = new Scanner(in);
 
         //Exercise
-        String result = currMenu.addNewCurrency(sc);
+        String result = currMenu.addNewCurrencyInput(sc);
 
         //Verify
         assertEquals(("\nEnter the currency code: LIR" +
@@ -393,8 +393,9 @@ public class CurrencyMenuTest {
 
     @Test
     public void TestAddNewCurrencyCheck() {
+
         //Setup
-        String code = "AAA";
+        String code = "AAAA";
         String name = "aaaa";
         String major = "Y";
 
@@ -402,6 +403,41 @@ public class CurrencyMenuTest {
         //Exercise
         try {
             currMenu.addNewCurrencyCheck(code, name, major);
+        }
+        //Verify
+        catch (Exception e) {
+            assertEquals("" , e.getMessage());
+        }
+    }
+
+    @Test
+    public void TestDeleteCurrencyInput() throws Exception {
+
+        //Setup
+        currMenu.addCurrency("TST", "Test", false);
+        String code = "TST";
+
+        ByteArrayInputStream in = new ByteArrayInputStream((code).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currMenu.deleteCurrencyInput(sc);
+
+        //Verify
+        assertEquals(("\nEnter the currency code: "), result);
+
+    }
+
+    @Test
+    public void TestDeleteCurrencyCheck() {
+
+        //Setup
+        String code = "TST";
+
+        //Exercise
+        try {
+            currMenu.deleteCurrencyCheck(code);
         }
         //Verify
         catch (Exception e) {
