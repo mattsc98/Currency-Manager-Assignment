@@ -5,6 +5,7 @@ import edu.uom.currencymanager.currencies.CurrencyDatabase;
 import edu.uom.currencymanager.currencies.ExchangeRate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -71,20 +72,28 @@ public class CurrencyMenu {
     }
 
     //-----case 1-----//
-    public void listCurrencies() {
+    public List<String> listCurrencies() {
         List<Currency> currencies = currencyDatabase.getCurrencies();
+        List<String> list = new ArrayList<String>(Collections.<String>emptyList());
         for (Currency currency : currencies) {
             System.out.println(currency.toString());
+            list.add(currency.toString());
         }
+
+        return list;
     }
 
 
     //-----case 2-----//
-    public void listExchangeRates() throws Exception {
+    public List<String> listExchangeRates() throws Exception {
         List<ExchangeRate> exchangeRates = getMajorCurrencyRates();
+        List<String> list = new ArrayList<String>(Collections.<String>emptyList());
         for (ExchangeRate rate : exchangeRates) {
             System.out.println(rate.toString());
+            list.add(rate.toString());
         }
+
+        return list;
     }
 
     public List<ExchangeRate> getMajorCurrencyRates() throws Exception {

@@ -25,6 +25,7 @@ public class CurrencyMenuTest {
 
     @Mock
     CurrencyDatabase currDBMock;
+    CurrencyMenu currMenuMock;
 
     @Before
     public void setup() throws Exception {
@@ -59,6 +60,7 @@ public class CurrencyMenuTest {
 
         //Teardown
         currMenu.deleteCurrencyWithCode("LIR");
+
 
     }
 
@@ -138,28 +140,28 @@ public class CurrencyMenuTest {
     @Test
     public void TestAddCurrency_CodeOverThree() {
 
-//        //Exercise
-//        try{
-//            currMenu.addCurrency("LIRA", "Maltese Lira", true);
-//        }
-//
-//        //Verify
-//        catch (Exception e) {
-//            assertEquals("A currency code should have 3 characters.", e.getMessage());
-//        }
-        try {
-            //Setup
-            currMenu.setCurrencyDatabase(currDBMock);
-            String code = "LIRA", name = "Maltese Lira";
-            doReturn(false).when(currDBMock).currencyExists(anyString());
-
-            //Exercise
-            currMenu.addCurrency(code, name, true);
+        //Exercise
+        try{
+            currMenu.addCurrency("LIRA", "Maltese Lira", true);
         }
-        catch (Exception e){
-            //Verify
+
+        //Verify
+        catch (Exception e) {
             assertEquals("A currency code should have 3 characters.", e.getMessage());
         }
+//        try {
+//            //Setup
+//            currMenu.setCurrencyDatabase(currDBMock);
+//            String code = "LIRA", name = "Maltese Lira";
+//            doReturn(false).when(currDBMock).currencyExists(anyString());
+//
+//            //Exercise
+//            currMenu.addCurrency(code, name, true);
+//        }
+//        catch (Exception e){
+//            //Verify
+//            assertEquals("A currency code should have 3 characters.", e.getMessage());
+//        }
 
     }
 
@@ -167,54 +169,54 @@ public class CurrencyMenuTest {
     public void TestAddCurrency_CodeUnderThree() {
 
         //Exercise
-//        try{
-//            currMenu.addCurrency("LI", "Maltese Lira", true);
-//        }
-//
-//        //Verify
-//        catch (Exception e) {
-//            assertEquals("A currency code should have 3 characters.", e.getMessage());
-//        }
-        try {
-            //Setup
-            currMenu.setCurrencyDatabase(currDBMock);
-            String code = "LI", name = "Maltese Lira";
-            doReturn(false).when(currDBMock).currencyExists(anyString());
-
-            //Exercise
-            currMenu.addCurrency(code, name, true);
+        try{
+            currMenu.addCurrency("LI", "Maltese Lira", true);
         }
-        catch (Exception e){
-            //Verify
+
+        //Verify
+        catch (Exception e) {
             assertEquals("A currency code should have 3 characters.", e.getMessage());
         }
+//        try {
+//            //Setup
+//            currMenu.setCurrencyDatabase(currDBMock);
+//            String code = "LI", name = "Maltese Lira";
+//            doReturn(false).when(currDBMock).currencyExists(anyString());
+//
+//            //Exercise
+//            currMenu.addCurrency(code, name, true);
+//        }
+//        catch (Exception e){
+//            //Verify
+//            assertEquals("A currency code should have 3 characters.", e.getMessage());
+//        }
     }
 
     @Test
     public void TestAddCurrency_MinLength() {
 
         //Exercise
-//        try{
-//            currMenu.addCurrency("LIR", "ML", true);
-//        }
-//
-//        //Verify
-//        catch (Exception e) {
-//            assertEquals("A currency's name should be at least 4 characters long.", e.getMessage());
-//        }
-        try {
-            //Setup
-            currMenu.setCurrencyDatabase(currDBMock);
-            String code = "LIR", name = "ML";
-            doReturn(false).when(currDBMock).currencyExists(anyString());
-
-            //Exercise
-            currMenu.addCurrency(code, name, true);
+        try{
+            currMenu.addCurrency("LIR", "ML", true);
         }
-        catch (Exception e){
-            //Verify
+
+        //Verify
+        catch (Exception e) {
             assertEquals("A currency's name should be at least 4 characters long.", e.getMessage());
         }
+//        try {
+//            //Setup
+//            currMenu.setCurrencyDatabase(currDBMock);
+//            String code = "LIR", name = "ML";
+//            doReturn(false).when(currDBMock).currencyExists(anyString());
+//
+//            //Exercise
+//            currMenu.addCurrency(code, name, true);
+//        }
+//        catch (Exception e){
+//            //Verify
+//            assertEquals("A currency's name should be at least 4 characters long.", e.getMessage());
+//        }
     }
 
     @Test
@@ -256,19 +258,30 @@ public class CurrencyMenuTest {
     @Test
     public void TestDeleteCurrencyWithCode() throws Exception {
 
+//        //Setup
+//        currMenu.addCurrency("LIR", "Maltese Lira", true);
+//
+//        //Exercise
+//        currMenu.deleteCurrencyWithCode("LIR");
+//
+//        //Verify
+//        assertFalse(currMenu.currencyDatabase.currencyExists("LIR"));
         //Setup
-        currMenu.addCurrency("LIR", "Maltese Lira", true);
+        currMenu.setCurrencyDatabase(currDBMock);
+        String code = "LIR";
+        doReturn(true).when(currDBMock).currencyExists(anyString());
 
         //Exercise
-        currMenu.deleteCurrencyWithCode("LIR");
+        currMenu.deleteCurrencyWithCode(code);
 
         //Verify
-        assertFalse(currMenu.currencyDatabase.currencyExists("LIR"));
+        verify(currDBMock,times(1)).deleteCurrency(anyString());
+
 
     }
 
     @Test
-    public void TestDeleteCurrencyWithCode_NoExist() throws Exception {
+    public void TestDeleteCurrencyWithCode_NoExist() {
 
         //Exercise
         try {
@@ -284,9 +297,59 @@ public class CurrencyMenuTest {
     }
 
     @Test
-    public void TestListCurrencies() {
+    public void TestListCurrencies() throws Exception {
 
-        //setup
-        //Mockito.when(currMenu.listCurrencies()).thenReturn(null);
+        //Setup
+        //List<Currency> test = currMenu.listCurrencies();
+        List<String> test = currMenu.listCurrencies();
+        System.out.println("\n");
+        currMenu.addCurrency("LIR", "Maltese Lira", true);
+
+        //Exercise
+        List<String> result = currMenu.listCurrencies();
+
+        //Verify
+        assertTrue(result.size() > test.size());
+
+        //Teardown
+        currMenu.deleteCurrencyWithCode("LIR");
+    }
+
+    @Test
+    public void TestListExchangeRates() throws Exception {
+
+        //Setup
+        List<String> test = currMenu.listExchangeRates();
+        System.out.println("\n");
+        currMenu.addCurrency("LIR", "Maltese Lira", true);
+
+        //Exercise
+        List<String> result = currMenu.listExchangeRates();
+
+        //Verify
+        assertTrue(result.size() > test.size());
+
+        //Teardown
+        currMenu.deleteCurrencyWithCode("LIR");
+    }
+//
+//    public void checkExchangeRateInput() {
+//        System.out.print("\nEnter source currency code (e.g. EUR): ");
+//        String src = sc.next().toUpperCase();
+//        System.out.print("\nEnter destination currency code (e.g. GBP): ");
+//        String dst = sc.next().toUpperCase();
+//        checkExchangeRateCalc(src, dst);
+//    }
+
+    @Test
+    public void TestCheckExchangeRateInput() {
+
+//        currMenu.checkExchangeRateInput();
+//        String src = "EUR";
+//        String dst = "GBP";
+//
+//        currMenu.checkExchangeRateCalc(src, dst);
+
+
     }
 }
