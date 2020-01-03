@@ -21,23 +21,18 @@ import static org.mockito.Mockito.*;
 
 public class CurrencyMenuTest {
 
-
     CurrencyDatabase currDB;
-    Currency curr, currZ;
+    //Currency curr, currZ;
     CurrencyMenu currMenu;
-
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
     @Mock
     CurrencyDatabase currDBMock;
-    CurrencyMenu currMenuMock;
 
     @Before
     public void setup() throws Exception {
         currDB = new CurrencyDatabase();
-        curr = new Currency("LIR", "Maltese Lira", true);
-        currZ = new Currency("ZEN", "Zeni", false);
+//          curr = new Currency("LIR", "Maltese Lira", true);
+//          currZ = new Currency("ZEN", "Zeni", false);
         currMenu = new CurrencyMenu();
         MockitoAnnotations.initMocks(this);
     }
@@ -45,11 +40,10 @@ public class CurrencyMenuTest {
     @After
     public void teardown() {
         currDB = null;
-        curr = null;
-        currZ = null;
+//        curr = null;
+//        currZ = null;
         currMenu = null;
     }
-
 
     @Test
     public void TestGetMajorCurrencyRates() throws Exception {
