@@ -59,7 +59,7 @@ public class CurrencyMenu {
                     break;
                 case 4:
                     System.out.println("\nAdding a New Currency\n-----------------------------");
-                    addNewCurrency();
+                    addNewCurrency(sc);
                     break;
                 case 5:
                     System.out.println("\nDeleting a Currency\n-----------------------------");
@@ -146,19 +146,31 @@ public class CurrencyMenu {
 
 
     //-----case 4-----//
-    public void addNewCurrency() {
-        System.out.print("\nEnter the currency code: ");
-        String code = sc.next().toUpperCase();
-        System.out.print("Enter currency name: ");
-        String name = sc.next();
-        name += sc.nextLine();
+    public String addNewCurrency(Scanner sc) {
+        String checkInput = "";
 
+        String CODE = "\nEnter the currency code: ";
+        System.out.print(CODE);
+        String code = sc.next().toUpperCase();
+
+        String NAME = "\nEnter currency name: ";
+        System.out.print(NAME);
+        String name = sc.next();
+        //name += sc.nextLine();
+
+        String MAJOR = "\nIs this a major currency? [y/n]";
         String major = "\n";
         while (!(major.equalsIgnoreCase("y") || major.equalsIgnoreCase("n"))) {
-            System.out.println("Is this a major currency? [y/n]");
+            System.out.println(MAJOR);
             major = sc.next();
         }
 
+        checkInput = CODE + code + NAME + name + MAJOR + major;
+        addNewCurrencyCheck(code,name,major);
+        return checkInput;
+    }
+
+    public void addNewCurrencyCheck(String code, String name, String major) {
         try {
             addCurrency(code, name, major.equalsIgnoreCase("y"));
         } catch (Exception e) {

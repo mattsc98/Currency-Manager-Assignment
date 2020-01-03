@@ -350,15 +350,62 @@ public class CurrencyMenuTest {
 //
 //    }
     @Test
-    public void TestCheckExchangeRateCalc() throws Exception {
+    public void TestCheckExchangeRateCalc()  {
 
-//        String src = "EUR";
-//        String dst = "GBP";
-//        currMenu.setCurrencyDatabase(currDBMock);
-//        currMenu.checkExchangeRateCalc(src, dst);
-//        verify(currDBMock,times(1)).getExchangeRate(src, dst);
-//        Mockito.when(provider.getCase3()).thenReturn(DEFAULT_SOURCE);
-//        Mockito.when(provider.getCase3()).thenReturn(DEFAULT_DESTINATION);
+        //Setup
+        String src = "AAA";
+        String dst = "BBB";
 
+        //Exercise
+        try {
+            currMenu.checkExchangeRateCalc(src, dst);
+        }
+        //Verify
+        catch (Exception e) {
+            assertEquals("", e.getMessage());
+        }
+
+    }
+
+    @Test
+    public void TestAddNewCurrency() throws Exception {
+
+        //Setup
+        String code = "LIR";
+        String name = "Lira";
+        String major = "Y";
+
+        ByteArrayInputStream in = new ByteArrayInputStream((code + " " + name + " " + major).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currMenu.addNewCurrency(sc);
+
+        //Verify
+        assertEquals(("\nEnter the currency code: LIR" +
+                "\nEnter currency name: Lira" +
+                "\nIs this a major currency? [y/n]Y"), result);
+
+        //Teardown
+        currMenu.deleteCurrencyWithCode("LIR");
+    }
+
+    @Test
+    public void TestAddNewCurrencyCheck() {
+        //Setup
+        String code = "AAA";
+        String name = "aaaa";
+        String major = "Y";
+
+
+        //Exercise
+        try {
+            currMenu.addNewCurrencyCheck(code, name, major);
+        }
+        //Verify
+        catch (Exception e) {
+            assertEquals("" , e.getMessage());
+        }
     }
 }
