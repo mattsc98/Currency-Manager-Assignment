@@ -5,7 +5,6 @@ import edu.uom.currencymanager.currencies.CurrencyDatabase;
 import edu.uom.currencymanager.currencies.ExchangeRate;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -56,7 +55,7 @@ public class CurrencyMenu {
                     break;
                 case 3:
                     System.out.println("\nChecking Exchange Rates\n-----------------------------");
-                    checkExchangeRateInput();
+                    checkExchangeRateInput(sc);
                     break;
                 case 4:
                     System.out.println("\nAdding a New Currency\n-----------------------------");
@@ -72,28 +71,28 @@ public class CurrencyMenu {
     }
 
     //-----case 1-----//
-    public List<String> listCurrencies() {
+    public void listCurrencies() {
         List<Currency> currencies = currencyDatabase.getCurrencies();
-        List<String> list = new ArrayList<String>(Collections.<String>emptyList());
+      //  List<String> list = new ArrayList<String>(Collections.<String>emptyList());
         for (Currency currency : currencies) {
             System.out.println(currency.toString());
-            list.add(currency.toString());
+          //  list.add(currency.toString());
         }
 
-        return list;
+      //  return list;
     }
 
 
     //-----case 2-----//
-    public List<String> listExchangeRates() throws Exception {
+    public void listExchangeRates() throws Exception {
         List<ExchangeRate> exchangeRates = getMajorCurrencyRates();
-        List<String> list = new ArrayList<String>(Collections.<String>emptyList());
+        //List<String> list = new ArrayList<String>(Collections.<String>emptyList());
         for (ExchangeRate rate : exchangeRates) {
             System.out.println(rate.toString());
-            list.add(rate.toString());
+         //   list.add(rate.toString());
         }
 
-        return list;
+
     }
 
     public List<ExchangeRate> getMajorCurrencyRates() throws Exception {
@@ -114,12 +113,20 @@ public class CurrencyMenu {
 
 
     //-----case 3-----//
-    public void checkExchangeRateInput() {
-        System.out.print("\nEnter source currency code (e.g. EUR): ");
+    public String checkExchangeRateInput(Scanner sc) {
+        String checkInput = "";
+
+        String SRC = "\nEnter source currency code (e.g. EUR): ";
+        System.out.print(SRC);
         String src = sc.next().toUpperCase();
-        System.out.print("\nEnter destination currency code (e.g. GBP): ");
+
+        String DST = "\nEnter destination currency code (e.g. GBP): ";
+        System.out.print(DST);
         String dst = sc.next().toUpperCase();
+
+        checkInput = SRC + src + DST + dst;
         checkExchangeRateCalc(src, dst);
+        return checkInput;
     }
 
     public void checkExchangeRateCalc(String source, String destination) {     //Seperate the try catch to make it more testable

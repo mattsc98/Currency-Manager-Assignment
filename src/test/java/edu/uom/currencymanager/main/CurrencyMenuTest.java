@@ -9,9 +9,12 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.*;
 import java.util.List;
+import java.util.Scanner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -22,6 +25,9 @@ public class CurrencyMenuTest {
     CurrencyDatabase currDB;
     Currency curr, currZ;
     CurrencyMenu currMenu;
+
+    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
     @Mock
     CurrencyDatabase currDBMock;
@@ -297,59 +303,62 @@ public class CurrencyMenuTest {
     }
 
     @Test
-    public void TestListCurrencies() throws Exception {
+    public void TestListCurrencies()  {
 
-        //Setup
-        //List<Currency> test = currMenu.listCurrencies();
-        List<String> test = currMenu.listCurrencies();
-        System.out.println("\n");
-        currMenu.addCurrency("LIR", "Maltese Lira", true);
+        currMenu.setCurrencyDatabase(currDBMock);
+        currMenu.listCurrencies();
+        verify(currDBMock,times(1)).getCurrencies();
 
-        //Exercise
-        List<String> result = currMenu.listCurrencies();
-
-        //Verify
-        assertTrue(result.size() > test.size());
-
-        //Teardown
-        currMenu.deleteCurrencyWithCode("LIR");
     }
 
     @Test
     public void TestListExchangeRates() throws Exception {
 
-        //Setup
-        List<String> test = currMenu.listExchangeRates();
-        System.out.println("\n");
-        currMenu.addCurrency("LIR", "Maltese Lira", true);
+        currMenu.setCurrencyDatabase(currDBMock);
+        currMenu.listExchangeRates();
+        verify(currDBMock,times(1)).getMajorCurrencies();
 
-        //Exercise
-        List<String> result = currMenu.listExchangeRates();
-
-        //Verify
-        assertTrue(result.size() > test.size());
-
-        //Teardown
-        currMenu.deleteCurrencyWithCode("LIR");
     }
-//
-//    public void checkExchangeRateInput() {
-//        System.out.print("\nEnter source currency code (e.g. EUR): ");
-//        String src = sc.next().toUpperCase();
-//        System.out.print("\nEnter destination currency code (e.g. GBP): ");
-//        String dst = sc.next().toUpperCase();
-//        checkExchangeRateCalc(src, dst);
-//    }
 
     @Test
     public void TestCheckExchangeRateInput() {
 
-//        currMenu.checkExchangeRateInput();
+        //Setup
+        String src = "EUR";
+        String dst = "GBP";
+
+        ByteArrayInputStream in = new ByteArrayInputStream((src + " " + dst).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currMenu.checkExchangeRateInput(sc);
+
+        //Verify
+        assertEquals(("\nEnter source currency code (e.g. EUR): "
+                + src + "\nEnter destination currency code (e.g. GBP): " + dst), result);
+
+    }
+//    public void checkExchangeRateCalc(String source, String destination) {     //Seperate the try catch to make it more testable
+//
+//        try {
+//            ExchangeRate rate = getExchangeRate(source, destination);
+//            System.out.println(rate.toString());
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//
+//    }
+    @Test
+    public void TestCheckExchangeRateCalc() throws Exception {
+
 //        String src = "EUR";
 //        String dst = "GBP";
-//
+//        currMenu.setCurrencyDatabase(currDBMock);
 //        currMenu.checkExchangeRateCalc(src, dst);
-
+//        verify(currDBMock,times(1)).getExchangeRate(src, dst);
+//        Mockito.when(provider.getCase3()).thenReturn(DEFAULT_SOURCE);
+//        Mockito.when(provider.getCase3()).thenReturn(DEFAULT_DESTINATION);
 
     }
 }
