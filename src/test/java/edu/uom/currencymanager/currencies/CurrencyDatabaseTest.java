@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CurrencyDatabaseTest {
@@ -37,34 +41,44 @@ public class CurrencyDatabaseTest {
         currZ = null;
     }
 
-
     @Test
     public void TestAddCurrency() throws Exception {
 
+//        //Exercise
+//        currDB.addCurrency(curr);
+//
+//        //Verify
+//        assertTrue(currDB.currencyExists("LIR"));
+//
+//        //Teardown
+//        currDB.deleteCurrency("LIR");
+
         //Exercise
-        currDB.addCurrency(curr);
+        currDBMock.addCurrency(curr);
 
         //Verify
-        assertTrue(currDB.currencyExists("LIR"));
-
-        //Teardown
-        currDB.deleteCurrency("LIR");
-
-
+        verify(currDBMock,times(1)).addCurrency(any(Currency.class));
+        //assertTrue(currDBMock.currencyExists("LIR"));
 
     }
 
     @Test
     public void TestDeleteCurrency() throws Exception {
 
-        //Setup
-        currDB.addCurrency(curr);
+//        //Setup
+//        currDB.addCurrency(curr);
+//
+//        //Exercise
+//        currDB.deleteCurrency("LIR");
+//
+//        //Verify
+//        assertFalse(currDB.currencyExists("LIR"));
 
         //Exercise
-        currDB.deleteCurrency("LIR");
+        currDBMock.deleteCurrency("LIR");
 
         //Verify
-        assertFalse(currDB.currencyExists("LIR"));
+        verify(currDBMock,times(1)).deleteCurrency(anyString());
 
     }
 
@@ -87,10 +101,10 @@ public class CurrencyDatabaseTest {
     public void TestGetCurrencyByCode_Null() {
 
         //Exercise
-        Currency retrievedCurr = currDB.getCurrencyByCode(null);
+        Currency retrievedCurr = currDBMock.getCurrencyByCode(null);
 
         //Verify
-        assertEquals(null, retrievedCurr);
+        assertNull(retrievedCurr);
 
     }
 
@@ -154,11 +168,11 @@ public class CurrencyDatabaseTest {
     public void TestGetMajorCurrencies() throws Exception {
 
         //Setup
-        List<Currency> result =  currDB.getMajorCurrencies();
+        List<Currency> result = currDB.getMajorCurrencies();
         currDB.addCurrency(curr);
 
         //Exercise
-        List<Currency> testResult =  currDB.getMajorCurrencies();
+        List<Currency> testResult = currDB.getMajorCurrencies();
 
         //Verify
         assertTrue(testResult.size() > result.size());
@@ -173,12 +187,11 @@ public class CurrencyDatabaseTest {
 
         //Setup
         //List with no major currencies must be created
-        List<Currency> currencies = new ArrayList<Currency>() {{
+        currDB.currencies = new ArrayList<Currency>() {{
             add(new Currency("AAA", "A", false));
             add(new Currency("BBB", "B", false));
             add(new Currency("CCC", "C", false));
         }};
-        currDB.currencies = currencies;
 
         //Exercise
         List<Currency> result = currDB.getMajorCurrencies();
@@ -259,7 +272,7 @@ public class CurrencyDatabaseTest {
         ExchangeRate result = currDB.getExchangeRate("LIR","ZEN");
 
         //Verify
-        assertFalse(testResult == result);
+        assertNotSame(testResult, result);
 
         //Teardown
         currDB.deleteCurrency("LIR");
