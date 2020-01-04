@@ -25,6 +25,15 @@ public class CurrencyMenuTest {
     //Currency curr, currZ;
     CurrencyMenu currMenu;
 
+    String menu = "1. List currencies" +
+            "2. List exchange rates between major " +
+            "currencies3" +
+            ". Check exchange rate" +
+            "4. Add currency" +
+            "5. Delete currency" +
+            "0. Quit\n" +
+            "Enter your choice: ";
+
     @Mock
     CurrencyDatabase currDBMock;
 
@@ -438,4 +447,69 @@ public class CurrencyMenuTest {
             assertEquals("" , e.getMessage());
         }
     }
+
+    @Test
+    public void TestMenuChoice0() throws Exception {
+        //Setup
+        String choice = "0";
+
+        ByteArrayInputStream in = new ByteArrayInputStream((choice).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currMenu.currMenu(sc);
+
+        //Verify
+        assertEquals((menu +
+                "\nExiting Program\n")
+                , result);
+    }
+
+    @Test
+    public void TestMenuChoice1() throws Exception {
+
+        //Setup
+        String choice = "1";
+        String quit = "0";
+
+        ByteArrayInputStream in = new ByteArrayInputStream((choice + " " + quit).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currMenu.currMenu(sc);
+
+        //Verify
+        assertEquals((menu +
+                        "\nAvailable Currencies\n" +
+                        "--------------------" +
+                        menu +
+                        "\nExiting Program\n")
+                , result);
+    }
+
+    @Test
+    public void TestMenuChoice2() throws Exception {
+
+        //Setup
+        String choice = "2";
+        String quit = "0";
+
+        ByteArrayInputStream in = new ByteArrayInputStream((choice + " " + quit).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currMenu.currMenu(sc);
+
+        //Verify
+        assertEquals((menu +
+                        "\nMajor Currency Exchange Rates\n" +
+                        "-----------------------------" +
+                        menu +
+                        "\nExiting Program\n")
+                , result);
+    }
+
 }

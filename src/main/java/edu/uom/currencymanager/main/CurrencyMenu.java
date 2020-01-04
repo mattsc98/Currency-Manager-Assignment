@@ -21,53 +21,80 @@ public class CurrencyMenu {
         this.currencyDatabase = currencyDatabase;
     }
 
-    public void currMenu() throws Exception {
+    public String currMenu(Scanner sc) throws Exception {
 
         //CurrencyManager manager = new CurrencyManager();
 
         boolean exit = false;
+        StringBuilder checkInput = new StringBuilder();
 
         while (!exit) {
+            //checkInput = "";
             System.out.println("\nMain Menu\n---------\n");
 
-            System.out.println("1. List currencies");
-            System.out.println("2. List exchange rates between major currencies");
-            System.out.println("3. Check exchange rate");
-            System.out.println("4. Add currency");
-            System.out.println("5. Delete currency");
-            System.out.println("0. Quit");
+            String CHOICE1 = "1. List currencies";
+            System.out.println(CHOICE1);
 
-            System.out.print("\nEnter your choice: ");
+            String CHOICE2 = "2. List exchange rates between major currencies";
+            System.out.println(CHOICE2);
+
+            String CHOICE3 = "3. Check exchange rate";
+            System.out.println(CHOICE3);
+
+            String CHOICE4 = "4. Add currency";
+            System.out.println(CHOICE4);
+
+            String CHOICE5 = "5. Delete currency";
+            System.out.println(CHOICE5);
+
+            String CHOICE0 = "0. Quit";
+            System.out.println(CHOICE0);
+
+            String ENTER = "\nEnter your choice: ";
 
             int choice = sc.nextInt();
+            checkInput.append(CHOICE1).append(CHOICE2).append(CHOICE3).append(CHOICE4).append(CHOICE5).append(CHOICE0).append(ENTER);
 
             switch (choice) {
                 case 0:
+                    String CASE0 = "\nExiting Program\n";
+                    System.out.println(CASE0);
+                    checkInput.append(CASE0);
                     exit = true;
                     break;
                 case 1:
-                    System.out.println("\nAvailable Currencies\n--------------------");
+                    String CASE1 = "\nAvailable Currencies\n--------------------";
+                    System.out.println(CASE1);
                     listCurrencies();
+                    checkInput.append(CASE1);
                     break;
                 case 2:
-                    System.out.println("\nMajor Currency Exchange Rates\n-----------------------------");
+                    String CASE2 = "\nMajor Currency Exchange Rates\n-----------------------------";
+                    System.out.println(CASE2);
                     listExchangeRates();
+                    checkInput.append(CASE2);
                     break;
                 case 3:
-                    System.out.println("\nChecking Exchange Rates\n-----------------------------");
+                    String CASE3 = "\nChecking Exchange Rates\n-----------------------------";
+                    System.out.println(CASE3);
                     checkExchangeRateInput(sc);
+                    checkInput.append(CASE3);
                     break;
                 case 4:
                     System.out.println("\nAdding a New Currency\n-----------------------------");
+                    System.out.println(CHOICE0);
                     addNewCurrencyInput(sc);
                     break;
                 case 5:
                     System.out.println("\nDeleting a Currency\n-----------------------------");
+                    System.out.println(CHOICE0);
                     deleteCurrencyInput(sc);
                     break;
             }
             Thread.sleep(1000);
+            //return checkInput;
         }
+        return checkInput.toString();
     }
 
     //-----case 1-----//
