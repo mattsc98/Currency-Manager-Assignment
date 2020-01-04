@@ -4,8 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
@@ -18,14 +18,16 @@ public class CurrencyDatabaseTest {
 
     CurrencyDatabase currDB;
     Currency curr, currZ;
-    //CurrencyDatabase currDBMock = mock(CurrencyDatabase.class);
+
+    @Mock
+    CurrencyDatabase currDBMock;
 
     @Before
     public void setup() throws Exception {
         currDB = new CurrencyDatabase();
         curr = new Currency("LIR", "Maltese Lira", true);
         currZ = new Currency("ZEN", "Zeni", false);
-        currDBMock = new CurrencyDatabase();
+        MockitoAnnotations.initMocks(this);
     }
 
     @After
@@ -33,29 +35,22 @@ public class CurrencyDatabaseTest {
         currDB = null;
         curr = null;
         currZ = null;
-        currDBMock = null;
     }
 
-    @InjectMocks
-//    Currency currMock = new Currency("LIR", "Maltese Lira", true);
-    CurrencyDatabase currDBMock;
-
-    @Mock
-    //CurrencyDatabase currDBMock;
-    Currency currMock = new Currency("LIR", "Maltese Lira", true);
 
     @Test
     public void TestAddCurrency() throws Exception {
 
         //Exercise
         currDB.addCurrency(curr);
-        //Mockito.when(currDBMock.addCurrency(curr)).thenReturn(currDBMock.currencyExists("LIR"));
 
         //Verify
         assertTrue(currDB.currencyExists("LIR"));
 
         //Teardown
         currDB.deleteCurrency("LIR");
+
+
 
     }
 

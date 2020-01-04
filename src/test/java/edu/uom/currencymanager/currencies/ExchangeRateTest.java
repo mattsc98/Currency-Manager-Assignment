@@ -9,29 +9,26 @@ import static org.junit.Assert.assertTrue;
 
 public class ExchangeRateTest {
 
-    CurrencyDatabase currDB;
     Currency curr, currZ;
 
     @Before
-    public void setup() throws Exception {
-        currDB = new CurrencyDatabase();
+    public void setup()  {
         curr = new Currency("LIR", "Maltese Lira", true);
         currZ = new Currency("ZEN", "Zeni", false);
     }
 
     @After
     public void teardown() {
-        currDB = null;
         curr = null;
         currZ = null;
     }
 
     @Test
-    public void TestExchangeRate() throws Exception {
+    public void TestExchangeRate()  {
 
         //Setup
-        currDB.addCurrency(curr);
-        currDB.addCurrency(currZ);
+//        currDB.addCurrency(curr);
+//        currDB.addCurrency(currZ);
         ExchangeRate exRate = new ExchangeRate(curr, currZ, 4.79);
 
         //Verify
@@ -41,28 +38,27 @@ public class ExchangeRateTest {
         );
 
         //Teardown
-        currDB.deleteCurrency("LIR");
-        currDB.deleteCurrency("ZEN");
+//        currDB.deleteCurrency("LIR");
+//        currDB.deleteCurrency("ZEN");
 
     }
 
     @Test
-    public void TestToString() throws Exception {
+    public void TestToString()  {
 
         //Setup
-        currDB.addCurrency(curr);
-        currDB.addCurrency(currZ);
+//        currDB.addCurrency(curr);
+//        currDB.addCurrency(currZ);
 
         //Exercise
-        ExchangeRate testRate = currDB.getExchangeRate("LIR", "ZEN");
-        testRate.rate = 4.79;
+        ExchangeRate testRate = new ExchangeRate(curr, currZ, 4.79);// = currDB.getExchangeRate("LIR", "ZEN");
 
         //Verify
         assertEquals("LIR 1 = ZEN " + testRate.rate + "", testRate.toString());
 
         //Teardown
-        currDB.deleteCurrency("LIR");
-        currDB.deleteCurrency("ZEN");
+//        currDB.deleteCurrency("LIR");
+//        currDB.deleteCurrency("ZEN");
     }
 
 }

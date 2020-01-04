@@ -11,27 +11,20 @@ import static org.junit.Assert.assertTrue;
 
 public class CurrencyTest {
 
-    CurrencyDatabase currDB;
-    Currency curr; //, currZ;
-//    Currency currMock = mock(Currency.class);
+    Currency curr;
 
     @Mock
     CurrencyDatabase currDBMock;
 
     @Before
     public void setup() throws Exception {
-        currDB = new CurrencyDatabase();
         curr = new Currency("LIR", "Maltese Lira", true);
-//        currZ = new Currency("ZEN", "Zeni", false);
-//        currMock = new Currency("LIR", "Maltese Lira", true);
         MockitoAnnotations.initMocks(this);
     }
 
     @After
     public void teardown() {
-        currDB = null;
         curr = null;
-//        currZ = null;
     }
 
     @Test
