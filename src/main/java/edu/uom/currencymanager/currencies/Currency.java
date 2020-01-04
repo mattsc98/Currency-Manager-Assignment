@@ -8,11 +8,17 @@ public class Currency {
     public String name;
     public boolean major;
 
+    //CurrencyDatabase currencyDatabase;
+
     public Currency(String code, String name, boolean major) {
         this.code = code;
         this.name = name;
         this.major = major;
     }
+
+//    public void setCurrencyDatabase(CurrencyDatabase currencyDatabase) {
+//        this.currencyDatabase = currencyDatabase;
+//    }
 
     public static Currency fromString(String currencyString) throws Exception {
 

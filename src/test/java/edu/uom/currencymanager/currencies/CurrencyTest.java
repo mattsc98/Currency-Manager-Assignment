@@ -3,6 +3,8 @@ package edu.uom.currencymanager.currencies;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -10,22 +12,26 @@ import static org.junit.Assert.assertTrue;
 public class CurrencyTest {
 
     CurrencyDatabase currDB;
-    Currency curr, currZ;
+    Currency curr; //, currZ;
 //    Currency currMock = mock(Currency.class);
+
+    @Mock
+    CurrencyDatabase currDBMock;
 
     @Before
     public void setup() throws Exception {
         currDB = new CurrencyDatabase();
         curr = new Currency("LIR", "Maltese Lira", true);
-        currZ = new Currency("ZEN", "Zeni", false);
+//        currZ = new Currency("ZEN", "Zeni", false);
 //        currMock = new Currency("LIR", "Maltese Lira", true);
+        MockitoAnnotations.initMocks(this);
     }
 
     @After
     public void teardown() {
         currDB = null;
         curr = null;
-        currZ = null;
+//        currZ = null;
     }
 
     @Test
@@ -59,8 +65,11 @@ public class CurrencyTest {
     @Test
     public void TestToString() throws Exception {
 
+//        //Setup
+//        currDB.addCurrency(curr);
+//
         //Setup
-        currDB.addCurrency(curr);
+        currDBMock.addCurrency(curr);
 
         //Exercise
         String testCurr = curr.toString();
@@ -70,7 +79,7 @@ public class CurrencyTest {
         //verify(currMock).toString();
 
         //Teardown
-        currDB.deleteCurrency("LIR");
+        //currDB.deleteCurrency("LIR");
 
     }
 }
