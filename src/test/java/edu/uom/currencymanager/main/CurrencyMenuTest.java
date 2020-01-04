@@ -512,4 +512,80 @@ public class CurrencyMenuTest {
                 , result);
     }
 
+    @Test
+    public void TestMenuChoice3() throws Exception {
+
+        //Setup
+        String choice = "3";
+        String quit = "0";
+        //feed incorrect data to force return to menu
+        String src = "AAAA";
+        String dst = "BBBB";
+
+        ByteArrayInputStream in = new ByteArrayInputStream((choice + " " + src + " " + dst + " " + quit).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currMenu.currMenu(sc);
+
+        //Verify
+        assertEquals((menu +
+                        "\nChecking Exchange Rates\n" +
+                        "-----------------------------" +
+                        menu +
+                        "\nExiting Program\n")
+                , result);
+    }
+
+    @Test
+    public void TestMenuCase4() throws Exception {
+        //Setup
+        String choice = "4";
+        String quit = "0";
+        //feed incorrect data to force return to menu
+        String code = "AAAA";
+        String name = "aa";
+        String major = "n";
+
+        ByteArrayInputStream in = new ByteArrayInputStream((choice + " " + code + " " +
+                name + " " + major + " " + quit).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currMenu.currMenu(sc);
+
+        //Verify
+        assertEquals((menu +
+                        "\nAdding a New Currency\n" +
+                        "-----------------------------" +
+                        menu +
+                        "\nExiting Program\n")
+                , result);
+    }
+
+    @Test
+    public void TestMenuCase5() throws Exception {
+        //Setup
+        String choice = "5";
+        String quit = "0";
+        //feed incorrect data to force return to menu
+        String code = "AAAA";
+
+        ByteArrayInputStream in = new ByteArrayInputStream((choice + " " + code + " " + quit).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currMenu.currMenu(sc);
+
+        //Verify
+        assertEquals((menu +
+                        "\nDeleting a Currency\n" +
+                        "-----------------------------" +
+                        menu +
+                        "\nExiting Program\n")
+                , result);
+    }
 }

@@ -81,14 +81,16 @@ public class CurrencyMenu {
                     checkInput.append(CASE3);
                     break;
                 case 4:
-                    System.out.println("\nAdding a New Currency\n-----------------------------");
-                    System.out.println(CHOICE0);
+                    String CASE4 = "\nAdding a New Currency\n-----------------------------";
+                    System.out.println(CASE4);
                     addNewCurrencyInput(sc);
+                    checkInput.append(CASE4);
                     break;
                 case 5:
-                    System.out.println("\nDeleting a Currency\n-----------------------------");
-                    System.out.println(CHOICE0);
+                    String CASE5 = "\nDeleting a Currency\n-----------------------------";
+                    System.out.println(CASE5);
                     deleteCurrencyInput(sc);
+                    checkInput.append(CASE5);
                     break;
             }
             Thread.sleep(1000);
