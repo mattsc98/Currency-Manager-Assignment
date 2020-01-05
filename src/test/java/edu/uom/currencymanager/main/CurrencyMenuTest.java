@@ -22,7 +22,6 @@ import static org.mockito.Mockito.*;
 public class CurrencyMenuTest {
 
     CurrencyDatabase currDB;
-    //Currency curr, currZ;
     CurrencyMenu currMenu;
 
     String menu = "1. List currencies" +
@@ -40,8 +39,6 @@ public class CurrencyMenuTest {
     @Before
     public void setup() throws Exception {
         currDB = new CurrencyDatabase();
-//          curr = new Currency("LIR", "Maltese Lira", true);
-//          currZ = new Currency("ZEN", "Zeni", false);
         currMenu = new CurrencyMenu();
         MockitoAnnotations.initMocks(this);
     }
@@ -49,8 +46,6 @@ public class CurrencyMenuTest {
     @After
     public void teardown() {
         currDB = null;
-//        curr = null;
-//        currZ = null;
         currMenu = null;
     }
 
@@ -70,68 +65,44 @@ public class CurrencyMenuTest {
         //Teardown
         currMenu.deleteCurrencyWithCode("LIR");
 
-
-    }
-
-//    @Test
-//    public void TestGetMajorCurrencyRates_NoMajorCurrencies() {
-//
-//        //Setup
-//        //List with no major currencies must be created
-//        List<Currency> currencies = new ArrayList<Currency>() {{
-//            add(new Currency("AAA", "A", false));
-//            add(new Currency("BBB", "B", false));
-//            add(new Currency("CCC", "C", false));
-//        }};
-//        currDB.currencies = currencies;
-//
-//        //Exercise
-//        List<Currency> result = currDB.getMajorCurrencies();
-//
-//        //Verify
-//        assertTrue(result.isEmpty());
-//
-//    }
-
-    @Test
-    public void TestGetExchangeRate_UnknownCurrencySource() {
-
-        //Exercise
-        try {
-            //currDB.getExchangeRate("AAA", "LIR");
-            currMenu.getExchangeRate("AAA", "USD");
-        } catch (Exception e) {
-            assertEquals("Unkown currency: AAA", e.getMessage());
-        }
     }
 
     @Test
-    public void TestGetExchangeRate_UnknownCurrencyDestination() {
+    public void TestGetExchangeRate_UnknownCurrencySource()  {
+
+        //Setup
+//        currDB.addCurrency(curr);
 
         //Exercise
         try {
-            //currDB.getExchangeRate("AAA", "LIR");
-            currMenu.getExchangeRate("USD", "AAA");
+            currMenu.getExchangeRate("AAA", "GBP");
         } catch (Exception e) {
             assertEquals("Unkown currency: AAA", e.getMessage());
         }
+
+        //Teardown
+//        currDB.deleteCurrency("LIR");
+    }
+
+    @Test
+    public void TestGetExchangeRate_UnknownCurrencyDestination()  {
+
+        //Setup
+//        currDB.addCurrency(curr);
+
+        //Exercise
+        try {
+            currMenu.getExchangeRate("GBP", "AAA");
+        } catch (Exception e) {
+            assertEquals("Unkown currency: AAA", e.getMessage());
+        }
+
+        //Teardown
+//        currDB.deleteCurrency("LIR");
     }
 
     @Test
     public void TestAddCurrency() throws Exception {
-
-//        //Exercise
-//        currMenu.addCurrency("LIR", "Maltese Lira", true);
-//
-//        //Verify
-//        Currency testCurr = currMenu.currencyDatabase.getCurrencyByCode("LIR");
-//        assertEquals("LIR", testCurr.code);
-//        assertEquals("Maltese Lira", testCurr.name);
-//        assertTrue(testCurr.major);
-//        //assertTrue(currMan.currencyDatabase.currencyExists("LIR"));
-//
-//        //Teardown
-//        currMenu.deleteCurrencyWithCode("LIR");
 
         //Setup
         currMenu.setCurrencyDatabase(currDBMock);
@@ -153,24 +124,10 @@ public class CurrencyMenuTest {
         try{
             currMenu.addCurrency("LIRA", "Maltese Lira", true);
         }
-
         //Verify
         catch (Exception e) {
             assertEquals("A currency code should have 3 characters.", e.getMessage());
         }
-//        try {
-//            //Setup
-//            currMenu.setCurrencyDatabase(currDBMock);
-//            String code = "LIRA", name = "Maltese Lira";
-//            doReturn(false).when(currDBMock).currencyExists(anyString());
-//
-//            //Exercise
-//            currMenu.addCurrency(code, name, true);
-//        }
-//        catch (Exception e){
-//            //Verify
-//            assertEquals("A currency code should have 3 characters.", e.getMessage());
-//        }
 
     }
 
@@ -181,24 +138,11 @@ public class CurrencyMenuTest {
         try{
             currMenu.addCurrency("LI", "Maltese Lira", true);
         }
-
         //Verify
         catch (Exception e) {
             assertEquals("A currency code should have 3 characters.", e.getMessage());
         }
-//        try {
-//            //Setup
-//            currMenu.setCurrencyDatabase(currDBMock);
-//            String code = "LI", name = "Maltese Lira";
-//            doReturn(false).when(currDBMock).currencyExists(anyString());
-//
-//            //Exercise
-//            currMenu.addCurrency(code, name, true);
-//        }
-//        catch (Exception e){
-//            //Verify
-//            assertEquals("A currency code should have 3 characters.", e.getMessage());
-//        }
+
     }
 
     @Test
@@ -208,44 +152,15 @@ public class CurrencyMenuTest {
         try{
             currMenu.addCurrency("LIR", "ML", true);
         }
-
         //Verify
         catch (Exception e) {
             assertEquals("A currency's name should be at least 4 characters long.", e.getMessage());
         }
-//        try {
-//            //Setup
-//            currMenu.setCurrencyDatabase(currDBMock);
-//            String code = "LIR", name = "ML";
-//            doReturn(false).when(currDBMock).currencyExists(anyString());
-//
-//            //Exercise
-//            currMenu.addCurrency(code, name, true);
-//        }
-//        catch (Exception e){
-//            //Verify
-//            assertEquals("A currency's name should be at least 4 characters long.", e.getMessage());
-//        }
+
     }
 
     @Test
     public void TestAddCurrency_CurrExists() throws Exception {
-
-//        //Setup
-//        currMenu.addCurrency("LIR", "Maltese Lira", true);
-//
-//        //Exercise
-//        try{
-//            currMenu.addCurrency("LIR", "Maltese Lira", true);
-//        }
-//
-//        //Verify
-//        catch (Exception e) {
-//            assertEquals("The currency LIR already exists.", e.getMessage());
-//        }
-//
-//        //Teardown
-//        currMenu.deleteCurrencyWithCode("LIR");
 
         //Setup
         currMenu.setCurrencyDatabase(currDBMock);
@@ -267,14 +182,6 @@ public class CurrencyMenuTest {
     @Test
     public void TestDeleteCurrencyWithCode() throws Exception {
 
-//        //Setup
-//        currMenu.addCurrency("LIR", "Maltese Lira", true);
-//
-//        //Exercise
-//        currMenu.deleteCurrencyWithCode("LIR");
-//
-//        //Verify
-//        assertFalse(currMenu.currencyDatabase.currencyExists("LIR"));
         //Setup
         currMenu.setCurrencyDatabase(currDBMock);
         String code = "LIR";
@@ -286,7 +193,6 @@ public class CurrencyMenuTest {
         //Verify
         verify(currDBMock,times(1)).deleteCurrency(anyString());
 
-
     }
 
     @Test
@@ -296,12 +202,10 @@ public class CurrencyMenuTest {
         try {
             currMenu.deleteCurrencyWithCode("LIR");
         }
-
         //Verify
         catch(Exception e) {
             assertEquals("Currency does not exist: LIR", e.getMessage());
         }
-
 
     }
 
@@ -342,16 +246,7 @@ public class CurrencyMenuTest {
                 + src + "\nEnter destination currency code (e.g. GBP): " + dst), result);
 
     }
-//    public void checkExchangeRateCalc(String source, String destination) {     //Seperate the try catch to make it more testable
-//
-//        try {
-//            ExchangeRate rate = getExchangeRate(source, destination);
-//            System.out.println(rate.toString());
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//
-//    }
+
     @Test
     public void TestCheckExchangeRateCalc()  {
 
@@ -392,6 +287,7 @@ public class CurrencyMenuTest {
 
         //Teardown
         currMenu.deleteCurrencyWithCode("LIR");
+
     }
 
     @Test
@@ -402,7 +298,6 @@ public class CurrencyMenuTest {
         String name = "aaaa";
         String major = "Y";
 
-
         //Exercise
         try {
             currMenu.addNewCurrencyCheck(code, name, major);
@@ -411,6 +306,7 @@ public class CurrencyMenuTest {
         catch (Exception e) {
             assertEquals("" , e.getMessage());
         }
+
     }
 
     @Test
@@ -446,6 +342,7 @@ public class CurrencyMenuTest {
         catch (Exception e) {
             assertEquals("" , e.getMessage());
         }
+
     }
 
     @Test
@@ -536,6 +433,7 @@ public class CurrencyMenuTest {
                         menu +
                         "\nExiting Program\n")
                 , result);
+
     }
 
     @Test
@@ -563,6 +461,7 @@ public class CurrencyMenuTest {
                         menu +
                         "\nExiting Program\n")
                 , result);
+
     }
 
     @Test
@@ -587,5 +486,6 @@ public class CurrencyMenuTest {
                         menu +
                         "\nExiting Program\n")
                 , result);
+
     }
 }

@@ -1,6 +1,5 @@
 package edu.uom.currencymanager.currencies;
 
-import edu.uom.currencymanager.currencyserver.CurrencyServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,23 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CurrencyDatabaseTest {
 
     CurrencyDatabase currDB;
     Currency curr, currZ;
-    CurrencyServer currServ;
 
     @Mock
     CurrencyDatabase currDBMock;
-    CurrencyServer currencyServer;
-
-    //currDBMock.setCurrencyServer(currServ);
 
     @Before
     public void setup() throws Exception {
@@ -50,41 +41,70 @@ public class CurrencyDatabaseTest {
     @Test
     public void TestAddCurrency() throws Exception {
 
-//        //Exercise
-//        currDB.addCurrency(curr);
-//
-//        //Verify
-//        assertTrue(currDB.currencyExists("LIR"));
-//
-//        //Teardown
-//        currDB.deleteCurrency("LIR");
-
         //Exercise
-        currDBMock.addCurrency(curr);
+        currDB.addCurrency(curr);
 
         //Verify
-        verify(currDBMock,times(1)).addCurrency(any(Currency.class));
-        //assertTrue(currDBMock.currencyExists("LIR"));
+        assertTrue(currDB.currencyExists("LIR"));
+
+        //Teardown
+        currDB.deleteCurrency("LIR");
+
+//        //Exercise
+//        currDBMock.addCurrency(curr);
+//
+//        //Verify
+//        verify(currDBMock,times(1)).addCurrency(any(Currency.class));
+//        //assertTrue(currDBMock.currencyExists("LIR"));
+    }
+
+    @Test
+    public void TestAddCurrencyException()  {
+
+        try{
+            //Setup
+            Currency currBad = new Currency("a", "a", false);
+            //Exercise
+            currDB.addCurrency(currBad);
+        }
+        catch(Exception e) {
+            //Verify
+            assertEquals("", e.getMessage());
+        }
 
     }
 
     @Test
     public void TestDeleteCurrency() throws Exception {
 
-//        //Setup
-//        currDB.addCurrency(curr);
-//
-//        //Exercise
-//        currDB.deleteCurrency("LIR");
-//
-//        //Verify
-//        assertFalse(currDB.currencyExists("LIR"));
+        //Setup
+        currDB.addCurrency(curr);
 
         //Exercise
-        currDBMock.deleteCurrency("LIR");
+        currDB.deleteCurrency("LIR");
 
         //Verify
-        verify(currDBMock,times(1)).deleteCurrency(anyString());
+        assertFalse(currDB.currencyExists("LIR"));
+
+//        //Exercise
+//        currDBMock.deleteCurrency("LIR");
+//
+//        //Verify
+//        verify(currDBMock,times(1)).deleteCurrency(anyString());
+
+    }
+
+    @Test
+    public void TestDeleteCurrencyException()  {
+
+        try{
+            //Exercise
+              currDB.deleteCurrency("a");
+        }
+        catch(Exception e) {
+            //Verify
+            assertEquals("", e.getMessage());
+        }
 
     }
 
@@ -115,6 +135,18 @@ public class CurrencyDatabaseTest {
     }
 
     @Test
+    public void TestGetCurrencyByCodeException()  {
+
+        try{
+            currDB.getCurrencyByCode("a");
+        }
+        catch(Exception e) {
+            assertEquals("", e.getMessage());
+        }
+
+    }
+
+    @Test
     public void TestCurrencyExists() throws Exception {
 
         //Exercise
@@ -131,7 +163,7 @@ public class CurrencyDatabaseTest {
     public void TestCurrencyExists_NoCurrency() {
 
         //Verify
-        assertFalse(currDB.currencyExists("LIR"));
+        assertFalse(currDB.currencyExists("a"));
 
     }
 
@@ -158,9 +190,8 @@ public class CurrencyDatabaseTest {
     public void TestGetCurrencies_NoCurrencies() {
 
         //Setup
-        List<Currency> currencies = new ArrayList<Currency>() {{
+        currDB.currencies = new ArrayList<Currency>() {{
         }};
-        currDB.currencies = currencies;
 
         //Exercise
         List<Currency> result = currDB.getCurrencies();
@@ -211,36 +242,37 @@ public class CurrencyDatabaseTest {
     public void TestGetExchangeRate_UnknownCurrencySource() throws Exception { //check
 
         //Setup
-        //currDB.addCurrency(curr);
+        currDB.addCurrency(curr);
 
         //Exercise
         try {
-            //currDB.getExchangeRate("AAA", "LIR");
-            currDB.getExchangeRate("AAA", "USD");
+            currDB.getExchangeRate("AAA", "LIR");
+            //currDB.getExchangeRate("AAA", "USD");
+            //better use LIR because if USD is ever deleted then the test fails
         } catch (Exception e) {
             assertEquals("Unkown currency: AAA", e.getMessage());
         }
 
         //Teardown
-        //currDB.deleteCurrency("LIR");
+        currDB.deleteCurrency("LIR");
     }
 
     @Test
     public void TestGetExchangeRate_UnknownCurrencyDestination() throws Exception {
 
         //Setup
-        //currDB.addCurrency(curr);
+        currDB.addCurrency(curr);
 
         //Exercise
         try {
-            //currDB.getExchangeRate("LIR", "AAA");
-            currDB.getExchangeRate("USD", "AAA");
+            currDB.getExchangeRate("LIR", "AAA");
+           // currDB.getExchangeRate("USD", "AAA");
         } catch (Exception e) {
             assertEquals("Unkown currency: AAA", e.getMessage());
         }
 
 //        Teardown
-//        currDB.deleteCurrency("LIR");
+        currDB.deleteCurrency("LIR");
 
     }
 
@@ -318,17 +350,5 @@ public class CurrencyDatabaseTest {
         assertEquals("code,name,major", firstLine);
     }
 
-//    public void persist(String file) throws Exception {
-//
-//
-//        writer.write("code,name,major\n");
-//        for (Currency currency : currencies) {
-//            writer.write(currency.code + "," + currency.name + "," + (currency.major ? "yes" : "no"));
-//            writer.newLine();
-//        }
-//
-//        writer.flush();
-//        writer.close();
-//    }
 
 }

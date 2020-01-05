@@ -17,7 +17,7 @@ public class CurrencyTest {
     CurrencyDatabase currDBMock;
 
     @Before
-    public void setup() throws Exception {
+    public void setup()  {
         curr = new Currency("LIR", "Maltese Lira", true);
         MockitoAnnotations.initMocks(this);
     }
@@ -56,11 +56,26 @@ public class CurrencyTest {
     }
 
     @Test
+    public void TestFromStringException()  {
+
+        try{
+            //Setup
+            String str = "a,a,a";
+
+            //Exercise
+           Currency.fromString(str);
+
+        }
+        catch(Exception e) {
+            //Verify
+            assertEquals("", e.getMessage());
+        }
+
+    }
+
+    @Test
     public void TestToString() throws Exception {
 
-//        //Setup
-//        currDB.addCurrency(curr);
-//
         //Setup
         currDBMock.addCurrency(curr);
 
@@ -69,10 +84,6 @@ public class CurrencyTest {
 
         //Verify
         assertEquals("LIR - Maltese Lira", testCurr);
-        //verify(currMock).toString();
-
-        //Teardown
-        //currDB.deleteCurrency("LIR");
 
     }
 }

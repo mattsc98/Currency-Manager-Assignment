@@ -27,8 +27,6 @@ public class ExchangeRateTest {
     public void TestExchangeRate()  {
 
         //Setup
-//        currDB.addCurrency(curr);
-//        currDB.addCurrency(currZ);
         ExchangeRate exRate = new ExchangeRate(curr, currZ, 4.79);
 
         //Verify
@@ -37,18 +35,10 @@ public class ExchangeRateTest {
                 && exRate.rate == 4.79
         );
 
-        //Teardown
-//        currDB.deleteCurrency("LIR");
-//        currDB.deleteCurrency("ZEN");
-
     }
 
     @Test
     public void TestToString()  {
-
-        //Setup
-//        currDB.addCurrency(curr);
-//        currDB.addCurrency(currZ);
 
         //Exercise
         ExchangeRate testRate = new ExchangeRate(curr, currZ, 4.79);// = currDB.getExchangeRate("LIR", "ZEN");
@@ -56,9 +46,6 @@ public class ExchangeRateTest {
         //Verify
         assertEquals("LIR 1 = ZEN " + testRate.rate + "", testRate.toString());
 
-        //Teardown
-//        currDB.deleteCurrency("LIR");
-//        currDB.deleteCurrency("ZEN");
     }
 
 }
