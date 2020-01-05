@@ -18,6 +18,14 @@ public class CurrencyDatabase {
 
     String currenciesFile = "target" + File.separator + "classes" + File.separator + "currencies.txt";
 
+    public void setCurrencies(List<Currency> currencies) {
+        this.currencies = currencies;
+    }
+
+    public void setCurrencyServer(CurrencyServer currencyServer) {
+        this.currencyServer = currencyServer;
+    }
+
     public CurrencyDatabase() throws Exception {
         init();
     }
@@ -188,7 +196,7 @@ public class CurrencyDatabase {
         currencies.add(currency);
 
         //Persist
-        persist(currenciesFile);
+        persistCheck(currenciesFile);
     }
 
     public void deleteCurrency(String code) throws Exception {
@@ -197,13 +205,21 @@ public class CurrencyDatabase {
         currencies.remove(getCurrencyByCode(code));
 
         //Persist
-        persist(currenciesFile);
+        persistCheck(currenciesFile);
     }
 
-    public void persist(String file) throws Exception {
+    public void persistCheck(String file) {
+        try {
+            //Persist list
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            persist(writer);
+        }
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
-        //Persist list
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    public void persist(BufferedWriter writer) throws Exception {
 
         writer.write("code,name,major\n");
         for (Currency currency : currencies) {
@@ -214,5 +230,6 @@ public class CurrencyDatabase {
         writer.flush();
         writer.close();
     }
+
 
 }

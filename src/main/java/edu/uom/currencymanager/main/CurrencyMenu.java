@@ -11,7 +11,6 @@ import java.util.Scanner;
 public class CurrencyMenu {
 
     CurrencyDatabase currencyDatabase;
-    Scanner sc = new Scanner(System.in);
 
     public CurrencyMenu() throws Exception {
         currencyDatabase = new CurrencyDatabase();
@@ -23,13 +22,10 @@ public class CurrencyMenu {
 
     public String currMenu(Scanner sc) throws Exception {
 
-        //CurrencyManager manager = new CurrencyManager();
-
         boolean exit = false;
         StringBuilder checkInput = new StringBuilder();
 
         while (!exit) {
-            //checkInput = "";
             System.out.println("\nMain Menu\n---------\n");
 
             String CHOICE1 = "1. List currencies";
@@ -164,7 +160,7 @@ public class CurrencyMenu {
             ExchangeRate rate = getExchangeRate(source, destination);
             System.out.println(rate.toString());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
 
     }
@@ -259,7 +255,6 @@ public class CurrencyMenu {
         }
 
         currencyDatabase.deleteCurrency(code);
-
     }
 
 }

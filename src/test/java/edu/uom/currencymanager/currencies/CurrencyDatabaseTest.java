@@ -1,5 +1,6 @@
 package edu.uom.currencymanager.currencies;
 
+import edu.uom.currencymanager.currencyserver.CurrencyServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +24,13 @@ public class CurrencyDatabaseTest {
 
     CurrencyDatabase currDB;
     Currency curr, currZ;
+    CurrencyServer currServ;
 
     @Mock
     CurrencyDatabase currDBMock;
+    CurrencyServer currencyServer;
+
+    //currDBMock.setCurrencyServer(currServ);
 
     @Before
     public void setup() throws Exception {
@@ -278,5 +284,51 @@ public class CurrencyDatabaseTest {
         currDB.deleteCurrency("LIR");
         currDB.deleteCurrency("ZEN");
     }
+
+    @Test
+    public void TestPersistCheck()  {
+
+        //Setup
+        String testFile = "target" + File.separator + "classes" + File.separator + "aaa.txt";
+
+        try {
+            //Exercise
+            currDB.persistCheck(testFile);
+        }
+
+        catch (Exception e) {
+            //Verify
+            assertEquals("", e.getMessage());
+        }
+    }
+
+    @Test
+    public void TestPersist() throws Exception {
+
+        //Setup
+        String testFile = "target" + File.separator + "classes" + File.separator + "test.txt";
+        BufferedReader read = new BufferedReader(new FileReader(testFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(testFile));
+
+        //Exercise
+        currDB.persist(writer);
+        String firstLine = read.readLine();
+
+        //Verify
+        assertEquals("code,name,major", firstLine);
+    }
+
+//    public void persist(String file) throws Exception {
+//
+//
+//        writer.write("code,name,major\n");
+//        for (Currency currency : currencies) {
+//            writer.write(currency.code + "," + currency.name + "," + (currency.major ? "yes" : "no"));
+//            writer.newLine();
+//        }
+//
+//        writer.flush();
+//        writer.close();
+//    }
 
 }
